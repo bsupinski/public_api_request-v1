@@ -9,34 +9,26 @@ const usersState = [];
 
 // Create HTML
 function cardHTML(person) {
-  const cardDiv = document.createElement("div");
-  cardDiv.classList.add("card");
-
-  const imgContainer = document.createElement("div");
-  imgContainer.classList.add("card-img-container");
-  const profileImg = document.createElement("img");
-  profileImg.classList.add("card-img");
-  profileImg.setAttribute("src", person.picture.medium);
-  profileImg.setAttribute(
-    "alt",
-    `An image of ${person.name.first} ${person.name.last}`
+  const cardDiv = createEl("div", ["card"]);
+  const imgContainer = createEl("div", ["card-img-container"]);
+  const profileImg = createEl("img", ["card-img"], {
+    src: `${imgSizeCheck(person.picture)}`,
+    alt: `An image of ${person.name.first} ${person.name.last}`,
+  });
+  const cardInfoContainer = createEl("div", ["card-info-container"]);
+  const personName = createEl(
+    "h3",
+    ["card-name", "cap"],
+    { id: "name" },
+    `${person.name.first} ${person.name.last}`
   );
-
-  const cardInfoContainer = document.createElement("div");
-  cardInfoContainer.classList.add("card-info-container");
-
-  const personName = document.createElement("h3");
-  personName.setAttribute("id", "name");
-  personName.classList.add("card-name", "cap");
-  personName.innerText = `${person.name.first} ${person.name.last}`;
-
-  const personEmail = document.createElement("div");
-  personEmail.classList.add("card-text");
-  personEmail.innerText = `${person.email}`;
-
-  const personLoc = document.createElement("div");
-  personLoc.classList.add("card-text", "cap");
-  personLoc.innerText = `${person.location.city}, ${person.location.state}`;
+  const personEmail = createEl("div", ["card-text"], null, `${person.email}`);
+  const personLoc = createEl(
+    "div",
+    ["card-text", "cap"],
+    null,
+    `${person.location.city}, ${person.location.state}`
+  );
 
   imgContainer.append(profileImg);
   cardInfoContainer.append(personName, personEmail, personLoc);
@@ -46,68 +38,69 @@ function cardHTML(person) {
 }
 
 function modalHTML(person) {
-  const modalContainer = document.createElement("div");
-  modalContainer.classList.add("modal-container");
-
-  const modal = document.createElement("div");
-  modal.classList.add("modal");
-
-  const closeButton = document.createElement("button");
-  closeButton.classList.add("modal-close-btn");
-  closeButton.setAttribute("type", "button");
-  closeButton.setAttribute("id", "modal-close-btn");
-
-  const strongText = document.createElement("strong");
-  strongText.innerText = "X";
-
-  const modalInfoContainer = document.createElement("div");
-  modalInfoContainer.classList.add("modal-info-container");
-
-  const modalImg = document.createElement("img");
-  modalImg.classList.add("modal-img");
-  modalImg.setAttribute("src", `${imgSizeCheck(person.picture)}`);
-  modalImg.setAttribute("alt", `${person.name.first} ${person.name.last}`);
-
-  const modalName = document.createElement("div");
-  modalName.classList.add("modal-name", "cap");
-  modalName.setAttribute("id", "name");
-  modalName.innerText = `${person.name.first} ${person.name.last}`;
-
-  const modalEmail = document.createElement("div");
-  modalEmail.classList.add("modal-text", "modal-email");
-  modalEmail.innerText = `${person.email}`;
-
-  const modalCity = document.createElement("div");
-  modalCity.classList.add("modal-text", "modal-city", "cap");
-  modalCity.innerText = `${person.location.city}`;
-
-  const modalPhone = document.createElement("div");
-  modalPhone.classList.add("modal-text", "modal-phone");
-  modalPhone.innerText = `${person.phone}`;
-
-  const modalAddress = document.createElement("div");
-  modalAddress.classList.add("modal-text", "modal-address");
-  modalAddress.innerText = `${person.location.street.number} ${person.location.street.name}, ${person.location.city}, ${person.location.state}`;
-
-  const modalBirthday = document.createElement("div");
-  modalBirthday.classList.add("modal-text", "modal-birthday");
-  modalBirthday.innerText = `${formatBday(person.dob.date)}`;
-
-  const btnContainer = document.createElement("div");
-  btnContainer.setAttribute("type", "button");
-  btnContainer.classList.add("modal-btn-container");
-
-  const prevBtn = document.createElement("button");
-  prevBtn.setAttribute("type", "button");
-  prevBtn.setAttribute("id", "modal-prev");
-  prevBtn.classList.add("modal-prev", "btn");
-  prevBtn.innerText = "Prev";
-
-  const nextBtn = document.createElement("button");
-  nextBtn.setAttribute("type", "button");
-  nextBtn.setAttribute("id", "modal-next");
-  nextBtn.classList.add("modal-next", "btn");
-  nextBtn.innerText = "Next";
+  const modalContainer = createEl("div", ["modal-container"], null, null);
+  const modal = createEl("div", ["modal"], null, null);
+  const closeButton = createEl("button", ["modal-close-btn"], {
+    type: "button",
+    id: "modal-close-btn",
+  });
+  const strongText = createEl("strong", null, null, "X");
+  const modalInfoContainer = createEl("div", ["modal-info-container"]);
+  const modalImg = createEl("img", ["modal-img"], {
+    src: `${imgSizeCheck(person.picture)}`,
+    alt: `Profile picture of ${person.name.first} ${person.name.last}`,
+  });
+  const modalName = createEl(
+    "div",
+    ["modal-name", "cap"],
+    { id: "name" },
+    `${person.name.first} ${person.name.last}`
+  );
+  const modalEmail = createEl(
+    "div",
+    ["modal-text", "modal-email"],
+    null,
+    `${person.email}`
+  );
+  const modalCity = createEl(
+    "div",
+    ["modal-text", "modal-city", "cap"],
+    null,
+    `${person.location.city}`
+  );
+  const modalPhone = createEl(
+    "div",
+    ["modal-test", "modal-phone"],
+    null,
+    `${person.phone}`
+  );
+  const modalAddress = createEl(
+    "div",
+    ["modal-text", "modal-address"],
+    null,
+    `${person.location.street.number} ${person.location.street.name}, ${person.location.city}, ${person.location.state}`
+  );
+  const modalBirthday = createEl(
+    "div",
+    ["modal-text", "modal-birthday"],
+    null,
+    `${formatBday(person.dob.date)}`
+  );
+  const btnContainer = createEl("div", ["modal-btn-container"], {
+    type: "button",
+  });
+  const prevBtn = createEl(
+    "button",
+    ["modal-prev", "btn"],
+    { type: "button", id: "modal-prev" },
+    "Prev"
+  );
+  const nextBtn = createEl(
+    "button",
+    ["modal-next", "btn"],
+    { type: "button", id: "modal-next" },
+    "Next"
+  );
 
   btnContainer.append(prevBtn, nextBtn);
 
@@ -147,6 +140,22 @@ function modalCardHTML(person) {
 }
 
 // Helpers
+function createEl(element, classes = null, obj = null, innerText = null) {
+  const ele = document.createElement(element);
+  if (classes !== null) {
+    if (classes.length >= 2) ele.classList.add(...classes);
+    else ele.classList.add(classes);
+  }
+
+  for (const [key, value] of Object.entries({ ...obj })) {
+    ele.setAttribute(`${key}`, value);
+  }
+
+  if (innerText !== null) ele.innerText = innerText;
+
+  return ele;
+}
+
 function formatBday(timeStamp) {
   const justTheDate = timeStamp.split("T")[0].split("-");
   const bday = `${justTheDate[1].padStart(2, "0")}/${justTheDate[2].padStart(
